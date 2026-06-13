@@ -2,34 +2,30 @@ name: IMDB-Clone
 
 on:
   push:
-    branches: 
+    branches:
       - main
 
 jobs:
   build-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+
     steps:
-    #Checkout Repository
       - name: Checkout
         uses: actions/checkout@v4
 
-    #Setup Node
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24.16.0
+          node-version: 24
 
-    #Install Dependencies
       - name: Install Dependencies
         run: npm install
 
-    #Build Project
       - name: Build Project
         run: npm run build
-    
-    #Deploy Project
-      - name: Deploy Project
-        uses: peaceiris/actions-gh-pages@v4
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
+          publish_dir: ./dist
